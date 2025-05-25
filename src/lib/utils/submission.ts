@@ -34,111 +34,89 @@ export class SubmissionService {
     private static readonly CHECK_ENDPOINT = '/api/check';
 
     /**
-     * Client-side validation before submission
-     */
+ * Client-side validation before submission
+ */
     static validateSubmissionData(data: SubmissionData): ValidationError[] {
         const errors: ValidationError[] = [];
-
-        // Debug: Log the data being validated
-        console.log('Validating submission data:', data);
 
         // Required field validation
         if (!data.fullName?.trim()) {
             errors.push({ field: 'fullName', message: 'Full name is required' });
-            console.log('Validation error: Full name is required');
         }
 
         if (!data.boardRoll?.trim()) {
             errors.push({ field: 'boardRoll', message: 'Board roll is required' });
-            console.log('Validation error: Board roll is required');
         } else if (!/^\d{6}$/.test(data.boardRoll)) {
             errors.push({ field: 'boardRoll', message: 'Board roll must be exactly 6 digits' });
-            console.log('Validation error: Board roll format invalid:', data.boardRoll);
         }
 
         if (!data.classRoll?.trim()) {
             errors.push({ field: 'classRoll', message: 'Class roll is required' });
-            console.log('Validation error: Class roll is required');
         } else if (!/^\d{1,10}$/.test(data.classRoll)) {
             errors.push({ field: 'classRoll', message: 'Class roll must be 1-10 digits' });
-            console.log('Validation error: Class roll format invalid:', data.classRoll);
         }
 
         // Roll conflict validation
         if (data.boardRoll && data.classRoll) {
             if (data.boardRoll === data.classRoll) {
                 errors.push({ field: 'classRoll', message: 'Board roll and class roll cannot be the same' });
-                console.log('Validation error: Board roll and class roll are the same');
             }
 
             const boardPrefix = data.boardRoll.substring(0, 5);
             const classPrefix = data.classRoll.substring(0, 5);
             if (boardPrefix === classPrefix) {
                 errors.push({ field: 'classRoll', message: 'First 5 digits of board roll and class roll cannot match' });
-                console.log('Validation error: First 5 digits match');
             }
         }
 
         // Email validation
         if (!data.email?.trim()) {
             errors.push({ field: 'email', message: 'Email is required' });
-            console.log('Validation error: Email is required');
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
             errors.push({ field: 'email', message: 'Please enter a valid email address' });
-            console.log('Validation error: Email format invalid:', data.email);
         }
 
         // Phone validation
         if (!data.phone?.trim()) {
             errors.push({ field: 'phone', message: 'Phone number is required' });
-            console.log('Validation error: Phone is required');
         } else {
             const cleanPhone = data.phone.replace(/[\s-]/g, '');
             if (!/^(\+880|880|0)?1[3-9]\d{8}$/.test(cleanPhone)) {
                 errors.push({ field: 'phone', message: 'Please enter a valid Bangladesh phone number' });
-                console.log('Validation error: Phone format invalid:', data.phone, 'cleaned:', cleanPhone);
             }
         }
 
         // Academic fields validation
         if (!data.department?.trim()) {
             errors.push({ field: 'department', message: 'Department is required' });
-            console.log('Validation error: Department is required');
         }
 
         if (!data.semester?.trim()) {
             errors.push({ field: 'semester', message: 'Semester is required' });
-            console.log('Validation error: Semester is required');
         }
 
         if (!data.group?.trim()) {
             errors.push({ field: 'group', message: 'Group is required' });
-            console.log('Validation error: Group is required');
         }
 
         if (!data.shift?.trim()) {
             errors.push({ field: 'shift', message: 'Shift is required' });
-            console.log('Validation error: Shift is required');
         }
 
         if (!data.session?.trim()) {
             errors.push({ field: 'session', message: 'Session is required' });
-            console.log('Validation error: Session is required');
         }
 
         // Custom session validation
         if (data.session === 'Other / Custom Session' && !data.customSession?.trim()) {
             errors.push({ field: 'customSession', message: 'Custom session is required' });
-            console.log('Validation error: Custom session is required');
         }
 
         // Profile image validation
         if (!data.profileImageUrl?.trim()) {
             errors.push({ field: 'profileImage', message: 'Profile image is required' });
-            console.log('Validation error: Profile image is required');
         }
 
-        console.log('Total validation errors:', errors.length, errors);
         return errors;
     }
 

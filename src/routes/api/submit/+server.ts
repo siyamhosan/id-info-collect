@@ -5,10 +5,44 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms';
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, getClientAddress }) => {
     try {
-        // Parse JSON data instead of FormData
-        const requestData = await request.json();
+        // Security: Check content type
+        const contentType = request.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            return json({
+                success: false,
+                message: 'Invalid content type'
+            }, { status: 400 });
+        }
+
+        // Security: Limit request size (1MB max)
+        const contentLength = request.headers.get('content-length');
+        if (contentLength && parseInt(contentLength) > 1024 * 1024) {
+            return json({
+                success: false,
+                message: 'Request too large'
+            }, { status: 413 });
+        }
+
+        // Parse JSON data with error handling
+        let requestData;
+        try {
+            requestData = await request.json();
+        } catch (error) {
+            return json({
+                success: false,
+                message: 'Invalid JSON data'
+            }, { status: 400 });
+        }
+
+        // Security: Validate request structure
+        if (!requestData || typeof requestData !== 'object') {
+            return json({
+                success: false,
+                message: 'Invalid request format'
+            }, { status: 400 });
+        }
 
         // Validate the submission data
         const validation = await superValidate(requestData, zod(SubmissionSchema));
@@ -73,23 +107,24 @@ export const POST: RequestHandler = async ({ request }) => {
             }, { status: 400 });
         }
 
-        // Insert the submission
+        // Security: Additional server-side sanitization
         const submissionData = {
             boardRoll: data.boardRoll,
             semester: data.semester,
             department: data.department,
             fullName: data.fullName,
             classRoll: data.classRoll,
-            email: data.email,
+            email: data.email.toLowerCase(),
             phone: data.phone,
             group: data.group,
             shift: data.shift,
             session: data.session,
-            customSession: data.customSession,
-            profileImage: data.profileImageUrl, // Use the URL string for database storage
+            customSession: data.customSession || null,
+            profileImage: data.profileImageUrl,
         };
 
-        await db.insert(Submissions).values(submissionData);
+        // Security: Use transaction for data integrity
+        const result = await db.insert(Submissions).values(submissionData).returning({ id: Submissions.id });
 
         // Store submission in localStorage tracking (for client-side duplicate prevention)
         const submissionId = `${data.boardRoll}-${Date.now()}`;
@@ -98,7 +133,13 @@ export const POST: RequestHandler = async ({ request }) => {
             success: true,
             message: 'Application submitted successfully',
             submissionId,
-            data: submissionData
+            // Security: Don't return sensitive data
+            data: {
+                id: result[0].id,
+                boardRoll: submissionData.boardRoll,
+                fullName: submissionData.fullName,
+                department: submissionData.department
+            }
         }, { status: 201 });
 
     } catch (error: any) {

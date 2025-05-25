@@ -114,9 +114,6 @@
 			profileImageUrl: formData.profileImageUrl || ''
 		};
 
-		// Debug: Log the data being sent for validation
-		console.log('Data being validated in form:', dataToValidate);
-
 		// Run comprehensive validation
 		validationErrors = SubmissionService.validateSubmissionData(dataToValidate);
 

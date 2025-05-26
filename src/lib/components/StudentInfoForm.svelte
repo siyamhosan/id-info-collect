@@ -11,10 +11,9 @@
 	} from '$lib/utils/validation';
 	import { fade, fly, scale } from 'svelte/transition';
 	import ImageUpload from './ImageUpload.svelte';
-	import { SessionOptions } from '$lib/utils/data';
+	import { groupOptions, SessionOptions } from '$lib/utils/data';
 	import { getBorderClass } from '$lib/utils/helper';
 	import { SubmissionService, type ValidationError } from '$lib/utils/submission';
-	import { groupOptions } from '$lib/server/schema/submission';
 
 	// Form data
 	let formData = {

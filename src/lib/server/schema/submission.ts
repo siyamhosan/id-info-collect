@@ -1,22 +1,10 @@
-import { Departments } from '$lib/utils/data';
+import { Departments, groupOptions } from '$lib/utils/data';
 import { z } from 'zod';
 
 
 
 const departmentOptions = Departments.map(department => department.code);
 
-export const groupOptions = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-]
 
 const shiftOptions = [
     'Morning',

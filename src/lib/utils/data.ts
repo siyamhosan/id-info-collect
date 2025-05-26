@@ -105,3 +105,18 @@ export const SessionOptions = [
     '2024-25',
     'Other / Custom Session'
 ];
+
+
+
+export const groupOptions = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+]

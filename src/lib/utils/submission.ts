@@ -14,6 +14,7 @@ export interface SubmissionData {
     customSession?: string;
     idCardValiditySession: string;
     profileImageUrl: string;
+    submissionId?: string; // Added to store the submission ID from server response
 }
 
 export interface SubmissionResponse {

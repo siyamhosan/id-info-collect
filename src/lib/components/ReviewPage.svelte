@@ -44,6 +44,15 @@
 			const result = await SubmissionService.submitApplication(submissionData);
 
 			if (result.success) {
+				// Add the submissionId to the form data before storing
+				const dataWithSubmissionId = {
+					...submissionData,
+					submissionId: result.submissionId
+				};
+
+				// Update the stored form data with submission ID
+				submittedFormData.set(dataWithSubmissionId);
+
 				// Navigate to success page
 				currentView.set('success');
 			} else {

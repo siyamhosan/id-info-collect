@@ -124,15 +124,12 @@ export const POST: RequestHandler = async ({ request, getClientAddress }) => {
         };
 
         // Security: Use transaction for data integrity
-        const result = await db.insert(Submissions).values(submissionData).returning({ id: Submissions.id });
-
-        // Store submission in localStorage tracking (for client-side duplicate prevention)
-        const submissionId = `${data.boardRoll}-${Date.now()}`;
+        const result = await db.insert(Submissions).values(submissionData).returning({ id: Submissions.id, identifier: Submissions.identifier });
 
         return json({
             success: true,
             message: 'Application submitted successfully',
-            submissionId,
+            submissionId: result[0].identifier,
             // Security: Don't return sensitive data
             data: {
                 id: result[0].id,

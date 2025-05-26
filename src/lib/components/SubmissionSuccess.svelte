@@ -6,10 +6,12 @@
 
 	$: formData = $submittedFormData as unknown as any;
 
-	// Generate unique confirmation number
-	$: confirmationNumber = formData
-		? `IDC-${formData.boardRoll}-${Date.now().toString().slice(-6)}`
-		: '';
+	// Use actual submission ID or generate fallback confirmation number
+	$: confirmationNumber = formData?.submissionId
+		? formData.submissionId
+		: formData
+			? `IDC-${formData.boardRoll}-${Date.now().toString().slice(-6)}`
+			: '';
 
 	function startNew() {
 		// Clear form data
@@ -91,9 +93,9 @@
 						</h1>
 						<p class="mt-1 text-sm text-gray-600">Application Successfully Submitted</p>
 
-						<!-- Confirmation Number -->
+						<!-- Submission ID -->
 						<div class="mt-3 inline-flex items-center rounded-lg bg-emerald-100 px-4 py-2">
-							<span class="text-xs font-medium text-emerald-900">Confirmation #:</span>
+							<span class="text-xs font-medium text-emerald-900">Submission ID:</span>
 							<span class="print-value ml-2 text-sm font-bold text-emerald-800"
 								>{confirmationNumber}</span
 							>
@@ -146,6 +148,38 @@
 										</div>
 									</div>
 								</div>
+							</div>
+						</div>
+
+						<!-- Submission ID Section -->
+						<div
+							class="border-t border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50 p-4"
+						>
+							<div class="text-center">
+								<h3 class="mb-2 text-lg font-bold text-emerald-900">Official Submission ID</h3>
+								<div
+									class="inline-flex items-center rounded-xl border-2 border-emerald-200 bg-white px-6 py-3 shadow-sm"
+								>
+									<svg
+										class="mr-2 h-5 w-5 text-emerald-600"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+										/>
+									</svg>
+									<span class="text-xl font-bold tracking-wider text-emerald-800"
+										>{confirmationNumber}</span
+									>
+								</div>
+								<p class="mt-2 text-sm text-emerald-700">
+									Keep this ID for your records and future reference
+								</p>
 							</div>
 						</div>
 
@@ -249,7 +283,8 @@
 									>3</span
 								>
 								<p class="text-amber-800">
-									<strong>Collection:</strong> Bring this confirmation and valid ID for collection.
+									<strong>Collection:</strong> Bring this confirmation with Submission ID
+									<strong>{confirmationNumber}</strong> and valid ID for collection.
 								</p>
 							</div>
 							<div class="flex items-start space-x-2">
@@ -302,7 +337,7 @@
 									<span class="print-value font-semibold text-green-700">Confirmed</span>
 								</div>
 								<div class="flex justify-between">
-									<span class="font-medium text-blue-700">Reference:</span>
+									<span class="font-medium text-blue-700">Submission ID:</span>
 									<span class="print-value font-semibold text-blue-900">{confirmationNumber}</span>
 								</div>
 							</div>

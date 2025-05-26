@@ -41,6 +41,8 @@
 	"dependencies": {
 		"@sveltejs/adapter-node": "^5.2.12",
 		"drizzle-orm": "^0.40.0",
+		"google-auth-library": "^9.15.1",
+		"google-spreadsheet": "^4.1.4",
 		"postgres": "^3.4.5"
 	},
 	"pnpm": {

@@ -34,6 +34,10 @@ A modern, responsive web application built with SvelteKit for collecting student
 - **Component Architecture**: Reusable Svelte components
 - **State Management**: Reactive stores for global state
 - **Form Validation**: Comprehensive client-side validation
+- **Database Integration**: PostgreSQL with Drizzle ORM
+- **Automated Processing**: Cron job system for Google Sheets export
+- **Rate Limiting**: Built-in API rate limiting and retry mechanisms
+- **Error Handling**: Comprehensive error handling with exponential backoff
 - **Accessibility**: ARIA labels, keyboard navigation, and screen reader support
 
 ## 🛠️ Technology Stack
@@ -41,7 +45,9 @@ A modern, responsive web application built with SvelteKit for collecting student
 - **Framework**: [SvelteKit](https://kit.svelte.dev/) - Modern web framework
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - **Language**: JavaScript with TypeScript annotations
-- **Database**: PostgreSQL with Drizzle ORM (configured but not used in current implementation)
+- **Database**: PostgreSQL with Drizzle ORM for submission storage
+- **Google Sheets**: Automated data export via Google Sheets API
+- **Cron Jobs**: Automated background processing with rate limiting
 - **Deployment**: Netlify-ready with adapter included
 
 ## 📋 Prerequisites
@@ -135,20 +141,71 @@ src/
 - **Next Steps**: Information about the ID card process
 - **New Application**: Option to start a new submission
 
+## 🤖 Automated Processing System
+
+The application includes a sophisticated cron job system that automatically processes pending submissions and exports them to Google Sheets. This ensures reliable data transfer while respecting API rate limits.
+
+### Key Features
+- **Batch Processing**: Groups submissions by department for efficient processing
+- **Rate Limiting**: Respects Google Sheets API limits (100 requests/minute)
+- **Retry Logic**: Exponential backoff with up to 4 retry attempts
+- **Error Handling**: Comprehensive error tracking and status updates
+- **Authentication**: Secure key-based authentication for cron endpoints
+- **Monitoring**: Detailed logging and execution statistics
+
+### Cron Job Endpoint
+`POST /api/submitter` - Processes all pending submissions
+
+**Authentication Methods:**
+- Header: `x-cron-key: your-secret-key`
+- Header: `Authorization: Bearer your-bearer-token`
+
+**Response Format:**
+```json
+{
+  "success": true,
+  "message": "Successfully processed 15 submissions",
+  "totalProcessed": 15,
+  "results": [...],
+  "errors": [],
+  "executionTime": 2340
+}
+```
+
+### Testing the Cron Job
+```bash
+# Test locally
+npm run test:cron
+
+# Test production
+npm run test:cron:prod
+
+# Manual testing
+curl -X POST http://localhost:5173/api/submitter \
+  -H "x-cron-key: your-secret-key"
+```
+
+For detailed setup instructions, see [CRON_SETUP.md](./CRON_SETUP.md).
+
 ## 🔧 Configuration
 
 ### Environment Variables
-Currently, the application runs entirely client-side. For production deployment with backend integration, you may need:
+For production deployment with backend integration, you need:
 
 ```env
-# Database (if using backend)
-DATABASE_URL=postgresql://...
+# Database Configuration
+DATABASE_URL=postgresql://username:password@localhost:5432/database_name
 
-# API endpoints
-PUBLIC_API_BASE_URL=https://your-api.com
+# Google Sheets API Configuration
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your-service-account@project-id.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----"
 
-# File upload service
-PUBLIC_UPLOAD_URL=https://your-upload-service.com
+# Cron Job Authentication
+CRON_SECRET_KEY=your-super-secret-cron-key-here
+CRON_BEARER_TOKEN=your-bearer-token-for-cron-jobs
+
+# Application Environment
+NODE_ENV=production
 ```
 
 ### Customization
@@ -196,6 +253,11 @@ For other deployment platforms, you may need to change the adapter in `svelte.co
 - `npm run check` - Run Svelte type checking
 - `npm run lint` - Run linting
 - `npm run format` - Format code with Prettier
+- `npm run test:cron` - Test cron job locally
+- `npm run test:cron:prod` - Test cron job in production
+- `npm run db:push` - Push database schema changes
+- `npm run db:migrate` - Run database migrations
+- `npm run db:studio` - Open Drizzle Studio
 
 ### Code Quality
 The project includes:

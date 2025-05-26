@@ -57,11 +57,34 @@
 				currentView.set('success');
 			} else {
 				// Handle submission errors
-				if (result.errors && Array.isArray(result.errors)) {
-					submissionErrors = result.errors.map((error: any) => error.message);
-				} else {
+				submissionErrors = [];
+
+				// Handle validation errors from server
+				if (result.errors) {
+					if (Array.isArray(result.errors)) {
+						// Handle array of error objects
+						submissionErrors = result.errors.map((error: any) => error.message || error);
+					} else if (typeof result.errors === 'object') {
+						// Handle validation errors object (field-specific errors)
+						for (const [field, fieldErrors] of Object.entries(result.errors)) {
+							if (Array.isArray(fieldErrors)) {
+								fieldErrors.forEach((error: string) => {
+									submissionErrors.push(`${getFieldDisplayName(field)}: ${error}`);
+								});
+							} else {
+								submissionErrors.push(`${getFieldDisplayName(field)}: ${fieldErrors}`);
+							}
+						}
+					}
+				}
+
+				// If no specific errors found, use the general message
+				if (submissionErrors.length === 0) {
 					submissionErrors = [result.message || 'Submission failed'];
 				}
+
+				// Show error notification
+				addNotification('Please fix the errors below and try again', 'error');
 			}
 		} catch (error) {
 			console.error('Submission error:', error);
@@ -78,6 +101,31 @@
 	 */
 	function getDepartmentFullName(code: string) {
 		return Departments.find((department) => department.code === code)?.name || code;
+	}
+
+	// Convert field names to user-friendly display names
+	/**
+	 * @param {string} fieldName
+	 */
+	function getFieldDisplayName(fieldName: string): string {
+		const fieldMap: Record<string, string> = {
+			boardRoll: 'Board Roll',
+			classRoll: 'Class Roll',
+			fullName: 'Full Name',
+			email: 'Email Address',
+			phone: 'Phone Number',
+			department: 'Department',
+			semester: 'Semester',
+			group: 'Group',
+			shift: 'Shift',
+			session: 'Session',
+			customSession: 'Custom Session',
+			idCardValiditySession: 'ID Card Validity Session',
+			profileImageUrl: 'Profile Image',
+			profileImage: 'Profile Image'
+		};
+
+		return fieldMap[fieldName] || fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
 	}
 </script>
 
@@ -491,14 +539,14 @@
 					<!-- Submission Errors -->
 					{#if submissionErrors.length > 0}
 						<div
-							class="rounded-2xl border border-red-200 bg-gradient-to-r from-red-50 to-pink-50 p-6 shadow-lg"
+							class="rounded-3xl border-2 border-red-300 bg-gradient-to-r from-red-50 to-pink-50 p-8 shadow-xl shadow-red-500/20"
 							in:fly={{ y: -20, duration: 300 }}
 						>
 							<div class="flex items-start space-x-4">
 								<div
-									class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 shadow-lg"
+									class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-red-500 to-pink-600 shadow-lg"
 								>
-									<svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+									<svg class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20">
 										<path
 											fill-rule="evenodd"
 											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
@@ -507,16 +555,48 @@
 									</svg>
 								</div>
 								<div class="flex-1">
-									<h4 class="text-lg font-bold text-red-900">Submission Failed</h4>
-									<div class="mt-2 space-y-1">
+									<h4 class="text-xl font-bold text-red-900">Please Fix These Issues</h4>
+									<p class="mt-1 text-sm text-red-700">
+										The following errors need to be corrected before submission:
+									</p>
+									<div class="mt-4 space-y-3">
 										{#each submissionErrors as error}
-											<p class="text-sm text-red-800">• {error}</p>
+											<div
+												class="flex items-start space-x-3 rounded-xl bg-white/60 p-4 backdrop-blur-sm"
+											>
+												<div
+													class="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-red-100"
+												>
+													<svg class="h-3 w-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+														<path
+															fill-rule="evenodd"
+															d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+															clip-rule="evenodd"
+														/>
+													</svg>
+												</div>
+												<p class="text-sm font-medium text-red-800">{error}</p>
+											</div>
 										{/each}
 									</div>
-									<p class="mt-3 text-sm text-red-700">
-										Please review the errors above and try again. If the problem persists, contact
-										support.
-									</p>
+									<div class="mt-6 flex items-center space-x-3 rounded-xl bg-amber-50 p-4">
+										<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100">
+											<svg class="h-4 w-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+												<path
+													fill-rule="evenodd"
+													d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+													clip-rule="evenodd"
+												/>
+											</svg>
+										</div>
+										<div class="flex-1">
+											<p class="text-sm font-medium text-amber-800">What to do next:</p>
+											<p class="mt-1 text-xs text-amber-700">
+												Click "Edit Information" below to go back and fix these issues, then return
+												to review and submit again.
+											</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

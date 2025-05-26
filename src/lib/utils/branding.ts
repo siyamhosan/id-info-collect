@@ -1,3 +1,5 @@
+import { Departments } from "./data";
+
 // Dhaka Polytechnic Institute Branding Configuration
 export const INSTITUTION_BRANDING = {
     // Official Names
@@ -48,104 +50,7 @@ export const INSTITUTION_BRANDING = {
     },
 
     // Departments/Technologies
-    departments: [
-        {
-            id: "cse",
-            code: "CSE",
-            name: "Computer Technology",
-            bangla: "কম্পিউটার টেকনোলজি",
-            icon: "💻",
-            color: "from-blue-500 to-blue-600"
-        },
-        {
-            id: "eee",
-            code: "EEE",
-            name: "Electrical Technology",
-            bangla: "ইলেকট্রিক্যাল টেকনোলজি",
-            icon: "⚡",
-            color: "from-yellow-500 to-orange-600"
-        },
-        {
-            id: "etc",
-            code: "ETC",
-            name: "Electronics Technology",
-            bangla: "ইলেক্ট্রনিক্স টেকনোলজি",
-            icon: "🔌",
-            color: "from-purple-500 to-purple-600"
-        },
-        {
-            id: "ce",
-            code: "CE",
-            name: "Civil Technology",
-            bangla: "সিভিল টেকনোলজি",
-            icon: "🏗️",
-            color: "from-gray-500 to-gray-600"
-        },
-        {
-            id: "me",
-            code: "ME",
-            name: "Mechanical Technology",
-            bangla: "মেকানিক্যাল টেকনোলজি",
-            icon: "⚙️",
-            color: "from-red-500 to-red-600"
-        },
-        {
-            id: "ae",
-            code: "AE",
-            name: "Automobile Technology",
-            bangla: "অটোমোবাইল টেকনোলজি",
-            icon: "🚗",
-            color: "from-green-500 to-green-600"
-        },
-        {
-            id: "arch",
-            code: "ARCH",
-            name: "Architecture Technology",
-            bangla: "আর্কিটেকচার টেকনোলজি",
-            icon: "🏛️",
-            color: "from-indigo-500 to-indigo-600"
-        },
-        {
-            id: "che",
-            code: "CHE",
-            name: "Chemical Technology",
-            bangla: "কেমিক্যাল টেকনোলজি",
-            icon: "🧪",
-            color: "from-teal-500 to-teal-600"
-        },
-        {
-            id: "ft",
-            code: "FT",
-            name: "Food Technology",
-            bangla: "ফুড টেকনোলজি",
-            icon: "🍎",
-            color: "from-pink-500 to-pink-600"
-        },
-        {
-            id: "env",
-            code: "ENV",
-            name: "Environmental Technology",
-            bangla: "এনভায়রনমেন্টাল টেকনোলজি",
-            icon: "🌱",
-            color: "from-emerald-500 to-emerald-600"
-        },
-        {
-            id: "rac",
-            code: "RAC",
-            name: "Refrigeration & Air Conditioning",
-            bangla: "রেফ্রিজারেশন এন্ড এয়ার-কন্ডিশন",
-            icon: "❄️",
-            color: "from-cyan-500 to-cyan-600"
-        },
-        {
-            id: "pt",
-            code: "PT",
-            name: "Power Technology",
-            bangla: "পাওয়ার টেকনোলজি",
-            icon: "🔋",
-            color: "from-amber-500 to-amber-600"
-        }
-    ],
+    departments: Departments,
 
     // Application Specific
     application: {

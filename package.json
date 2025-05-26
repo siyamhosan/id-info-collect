@@ -1,7 +1,8 @@
 {
 	"name": "id-info-collect",
-	"private": true,
-	"version": "0.0.1",
+	"private": false,
+	"description": "University ID Card Information Collector Web App",
+	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",

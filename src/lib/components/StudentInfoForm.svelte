@@ -14,6 +14,7 @@
 	import { SessionOptions } from '$lib/utils/data';
 	import { getBorderClass } from '$lib/utils/helper';
 	import { SubmissionService, type ValidationError } from '$lib/utils/submission';
+	import { groupOptions } from '$lib/server/schema/submission';
 
 	// Form data
 	let formData = {
@@ -637,9 +638,9 @@
 									)} bg-white/50 px-4 py-3.5 text-gray-900 transition-all duration-200 focus:ring-4 focus:outline-none sm:text-sm"
 								>
 									<option value="">Select your group</option>
-									<option value="A">Group A</option>
-									<option value="B">Group B</option>
-									<option value="C">Group C</option>
+									{#each groupOptions as group}
+										<option value={group}>{group} Group</option>
+									{/each}
 								</select>
 							</div>
 

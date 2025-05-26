@@ -5,17 +5,17 @@ import { z } from 'zod';
 
 const departmentOptions = Departments.map(department => department.code);
 
-const groupOptions = [
-    'Group A',
-    'Group B',
-    'Group C',
-    'Group D',
-    'Group E',
-    'Group F',
-    'Group G',
-    'Group H',
-    'Group I',
-    'Group J',
+export const groupOptions = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
 ]
 
 const shiftOptions = [
@@ -78,6 +78,7 @@ export const SubmissionSchema = z.object({
         .max(20, 'Custom session too long')
         .regex(/^[a-zA-Z0-9\s\-]+$/, 'Invalid custom session format')
         .optional()
+        .nullable()
         .transform(val => val?.trim()),
     idCardValiditySession: z.string()
         .min(1, 'ID Card Validity Session is required')
@@ -86,5 +87,5 @@ export const SubmissionSchema = z.object({
     profileImageUrl: z.string()
         .min(1, 'Profile Image is required')
         .max(10000, 'Image data too large')
-        .regex(/^data:image\/(jpeg|jpg|png);base64,/, 'Invalid image format'),
+    // .regex(/^data:image\/(jpeg|jpg|png);base64,/, 'Invalid image format'),
 });

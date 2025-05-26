@@ -11,88 +11,88 @@ export const Semesters = [
 
 export const Departments = [
     {
-        id: 'cse',
-        name: 'Computer Science & Engineering',
-        code: 'CSE',
-        icon: '💻',
-        color: 'from-blue-500 to-cyan-500'
-    },
-    {
-        id: 'eee',
-        name: 'Electrical & Electronic Engineering',
-        code: 'EEE',
-        icon: '⚡',
-        color: 'from-yellow-500 to-orange-500'
-    },
-    {
-        id: 'me',
-        name: 'Mechanical Engineering',
-        code: 'ME',
-        icon: '⚙️',
-        color: 'from-gray-500 to-slate-600'
-    },
-    {
-        id: 'ce',
-        name: 'Civil Engineering',
-        code: 'CE',
-        icon: '🏗️',
-        color: 'from-emerald-500 to-green-600'
-    },
-    {
-        id: 'che',
-        name: 'Chemical Engineering',
-        code: 'ChE',
-        icon: '🧪',
-        color: 'from-purple-500 to-violet-600'
-    },
-    {
-        id: 'mse',
-        name: 'Materials Science & Engineering',
-        code: 'MSE',
-        icon: '🔬',
-        color: 'from-pink-500 to-rose-600'
-    },
-    {
-        id: 'ipe',
-        name: 'Industrial & Production Engineering',
-        code: 'IPE',
-        icon: '🏭',
-        color: 'from-indigo-500 to-blue-600'
-    },
-    {
-        id: 'naval',
-        name: 'Naval Architecture & Marine Engineering',
-        code: 'NAME',
-        icon: '🚢',
-        color: 'from-teal-500 to-cyan-600'
-    },
-    {
         id: 'arch',
-        name: 'Architecture',
+        name: 'Architecture Technology',
         code: 'ARCH',
         icon: '🏛️',
         color: 'from-amber-500 to-yellow-600'
     },
     {
-        id: 'urp',
-        name: 'Urban & Regional Planning',
-        code: 'URP',
-        icon: '🏙️',
-        color: 'from-slate-500 to-gray-600'
+        id: 'ce',
+        name: 'Civil Technology',
+        code: 'CIVIL',
+        icon: '🏗️',
+        color: 'from-emerald-500 to-green-600'
     },
     {
-        id: 'bme',
-        name: 'Biomedical Engineering',
-        code: 'BME',
-        icon: '🩺',
-        color: 'from-red-500 to-pink-600'
+        id: 'che',
+        name: 'Chemical Technology',
+        code: 'CHEM',
+        icon: '🧪',
+        color: 'from-purple-500 to-violet-600'
     },
     {
-        id: 'wre',
-        name: 'Water Resources Engineering',
-        code: 'WRE',
-        icon: '💧',
+        id: 'food',
+        name: 'Food Technology',
+        code: 'FOOD',
+        icon: '🍲',
+        color: 'from-orange-500 to-red-600'
+    },
+    {
+        id: 'cst',
+        name: 'Computer Science and Technology',
+        code: 'CST',
+        icon: '💻',
+        color: 'from-blue-500 to-cyan-500'
+    },
+    {
+        id: 'et',
+        name: 'Electrical Technology',
+        code: 'ET',
+        icon: '⚡',
+        color: 'from-yellow-500 to-orange-500'
+    },
+    {
+        id: 'elt',
+        name: 'Electronics Technology',
+        code: 'ELT',
+        icon: '📡',
+        color: 'from-green-500 to-teal-600'
+    },
+    {
+        id: 'envt',
+        name: 'Environmental Technology',
+        code: 'ENVT',
+        icon: '🌿',
+        color: 'from-teal-500 to-blue-600'
+    },
+    {
+        id: 'me',
+        name: 'Mechanical Technology',
+        code: 'MECH',
+        icon: '⚙️',
+        color: 'from-gray-500 to-slate-600'
+    },
+    {
+        id: 'auto',
+        name: 'Automobile Technology',
+        code: 'AUTO',
+        icon: '🚗',
+        color: 'from-red-500 to-orange-600'
+    },
+    {
+        id: 'rac',
+        name: 'Refrigeration and Air Conditioning',
+        code: 'RAC',
+        icon: '❄️',
         color: 'from-blue-400 to-teal-500'
+    },
+    {
+        id: 'pt',
+        name: 'Power Technology',
+        code: 'PT',
+        icon: '🔌',
+        color: 'from-indigo-500 to-purple-600'
     }
 ];
 

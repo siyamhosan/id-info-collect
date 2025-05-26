@@ -1,16 +1,9 @@
+import { Departments } from '$lib/utils/data';
 import { z } from 'zod';
 
 
 
-const departmentOptions = [
-    'CSE',
-    'EEE',
-    'BME',
-    'WRE',
-    'CE',
-    'ME',
-    'Other / Custom Department'
-];
+const departmentOptions = Departments.map(department => department.code);
 
 const groupOptions = [
     'Group A',

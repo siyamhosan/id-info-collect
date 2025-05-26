@@ -37,6 +37,7 @@
 		"zod": "^3.25.28"
 	},
 	"dependencies": {
+		"@sveltejs/adapter-node": "^5.2.12",
 		"drizzle-orm": "^0.40.0",
 		"postgres": "^3.4.5"
 	},

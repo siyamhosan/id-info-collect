@@ -1,8 +1,18 @@
-# ID Card Information Collection System
+# ঢাকা পলিটেকনিক ইনস্টিটিউট - শিক্ষার্থী পরিচয়পত্র আবেদন সিস্টেম
 
-A modern, responsive web application built with SvelteKit for collecting student information for ID card applications. This system provides a smooth, multi-step form experience with real-time validation and a beautiful user interface.
+## Dhaka Polytechnic Institute - Student ID Card Application System
+
+A modern, responsive web application built with SvelteKit for collecting student information for ID card applications at Dhaka Polytechnic Institute. This system provides a smooth, multi-step form experience with real-time validation, comprehensive security measures, and a beautiful user interface that reflects the institution's official branding.
 
 ## 🚀 Features
+
+### 🏛️ Institutional Branding
+- **Official DPI Identity**: Complete integration with Dhaka Polytechnic Institute's official branding
+- **Bilingual Interface**: Bengali and English language support throughout the application
+- **Government Portal Style**: Designed to match Bangladesh National Portal standards
+- **12 Official Departments**: All current DPI technology departments with proper names and codes
+- **Institutional Statistics**: Live display of student (10,800), teacher (212), and infrastructure data
+- **Official Contact Information**: Integrated with real DPI contact details and address
 
 ### Core Functionality
 - **Multi-step Form Flow**: Login → Department Selection → Information Form → Review → Success
@@ -42,7 +52,7 @@ A modern, responsive web application built with SvelteKit for collecting student
 ## 🚀 Getting Started
 
 1. **Clone the repository**
-   ```bash
+```bash
    git clone <repository-url>
    cd id-info-collect
    ```
@@ -55,8 +65,8 @@ A modern, responsive web application built with SvelteKit for collecting student
    ```
 
 3. **Start the development server**
-   ```bash
-   npm run dev
+```bash
+npm run dev
    # or
    pnpm dev
    ```
@@ -165,9 +175,9 @@ The application uses Tailwind CSS. Modify classes directly in components or exte
 The project is pre-configured for Netlify deployment:
 
 1. **Build the project**
-   ```bash
-   npm run build
-   ```
+```bash
+npm run build
+```
 
 2. **Deploy to Netlify**
    - Connect your repository to Netlify

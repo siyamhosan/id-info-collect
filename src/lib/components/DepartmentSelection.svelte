@@ -3,18 +3,19 @@
 	import { currentView } from '$lib/stores/currentView';
 	import { addNotification } from '$lib/stores/notifications';
 	import { fade, fly, scale } from 'svelte/transition';
-	import { Departments } from '$lib/utils/data';
+	import { INSTITUTION_BRANDING, getDepartmentByCode } from '$lib/utils/branding';
 
 	let searchTerm = '';
 
-	$: filteredDepartments = Departments.filter(
+	$: filteredDepartments = INSTITUTION_BRANDING.departments.filter(
 		(dept) =>
 			dept.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			dept.code.toLowerCase().includes(searchTerm.toLowerCase())
+			dept.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			dept.bangla.includes(searchTerm)
 	);
 
-	function selectDepartment(departmentId: string) {
-		const department = Departments.find((d) => d.id === departmentId);
+	function selectDepartment(departmentCode: string) {
+		const department = getDepartmentByCode(departmentCode);
 		if (!department) return;
 
 		// Update user session with department
@@ -111,7 +112,7 @@
 
 			<!-- Department Grid -->
 			<div class="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-				{#each filteredDepartments as department, index (department.id)}
+				{#each filteredDepartments as department, index (department.code)}
 					<div
 						in:fly={{ y: 30, duration: 400, delay: 300 + index * 50 }}
 						out:scale={{ duration: 200 }}
@@ -119,7 +120,7 @@
 					>
 						<button
 							aria-label={`Select ${department.name}`}
-							on:click={() => selectDepartment(department.id)}
+							on:click={() => selectDepartment(department.code)}
 							class="relative w-full overflow-hidden rounded-2xl bg-white/80 p-6 text-left shadow-lg shadow-gray-900/5 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-900/10 focus:ring-4 focus:ring-indigo-500/20 focus:outline-none"
 						>
 							<!-- Background Gradient -->

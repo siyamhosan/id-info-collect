@@ -64,7 +64,7 @@ export const SubmissionSchema = z.object({
     }),
     customSession: z.string()
         .max(20, 'Custom session too long')
-        .regex(/^[a-zA-Z0-9\s\-]+$/, 'Invalid custom session format')
+        .regex(/^[a-zA-Z0-9\s\-]*$/, 'Invalid custom session format')
         .optional()
         .nullable()
         .transform(val => val?.trim()),

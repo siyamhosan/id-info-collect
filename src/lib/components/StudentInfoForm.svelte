@@ -659,7 +659,6 @@
 									<option value="">Select your shift</option>
 									<option value="Morning">Morning</option>
 									<option value="Day">Day</option>
-									<option value="Evening">Evening</option>
 								</select>
 							</div>
 						</div>
